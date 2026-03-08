@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Резюме - Данило Недобора</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
     <h1>Данило Недобора</h1>
     <p><strong>Junior IT Auditor</strong> | Студент кібербезпеки</p>
+    <button id="theme-btn">Змінити тему</button>
     <address>
         <p>Телефон: <a href="tel:+380980069582">+380980069582</a></p>
         <p>Email: <a href="mailto:d.nedobora.al@gmail.com">d.nedobora.al@gmail.com</a></p>
@@ -19,71 +21,90 @@
 <main>
     <section>
         <h2>Про мене</h2>
-        <p>
-            Я студент спеціальності "Кібербезпека", глибоко захоплений IT та постійно вмотивований розвиватися у цій сфері.
-            Маю сильний інтерес до технологій та бажання навчатися, розширювати свої знання та розвивати практичні навички.
-            Зараз працюю на посаді молодшого IT-аудитора, де застосовую свої знання на практиці.
-        </p>
+        <p>Я студент спеціальності "Кібербезпека", Junior IT Auditor у PwC.</p>
+    </section>
+
+    <section>
+        <h2>Відгуки (Fetch API)</h2>
+        <div id="reviews-container">Завантаження коментарів...</div>
     </section>
 
     <section>
         <h2>Досвід роботи</h2>
         <ul>
-            <li>
-                <strong>Junior IT Auditor</strong> — PwC<br>
-                <em>Теперішній час</em><br>
-                <p>Участь у проєктах з IT-аудиту, аналіз ризиків та перевірка безпеки інформаційних систем.</p>
-            </li>
-            <li>
-                <strong>Department of IT Support of the Students Government</strong><br>
-                <em>2024 — Теперішній час</em>
-            </li>
-            <li>
-                <strong>Student Organization Collegium and ICTA Student Union</strong><br>
-                <em>2023 — 2024</em>
-            </li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>Освіта</h2>
-        <p>
-            <strong>Національний університет "Львівська політехніка"</strong><br>
-            Студент спеціальності "Кібербезпека" (Cybersecurity)<br>
-            <em>2023 — Теперішній час</em>
-        </p>
-    </section>
-
-    <section>
-        <h2>Навички</h2>
-
-        <h3>Hard Skills</h3>
-        <ul>
-            <li>Programming: C, Python, C#, JavaScript</li>
-            <li>Network Security: Nmap, Wireshark, Maltego</li>
-            <li>Data & Tools: SQL, PowerBI, MS Office (Word, Excel, PowerPoint)</li>
-            <li>Інше: Computer networks management, Social Engineering</li>
-        </ul>
-
-        <h3>Soft Skills</h3>
-        <ul>
-            <li>Стратегічне мислення</li>
-            <li>Креативне вирішення проблем</li>
-            <li>Комунікабельність та робота в команді</li>
-            <li>Тайм-менеджмент</li>
-            <li>Гнучкість та адаптивність</li>
-        </ul>
-
-        <h3>Мови</h3>
-        <ul>
-            <li>Англійська: B2</li>
-            <li>Польська: A2</li>
+            <li><strong>Junior IT Auditor</strong> — PwC (Теперішній час)</li>
         </ul>
     </section>
 </main>
 
+<div id="modal-form" class="modal-overlay">
+    <div class="modal-content">
+        <span id="close-modal" class="close-btn">&times;</span>
+        <h3>Зворотній зв'язок</h3>
+        <form action="https://formspree.io/f/xwvrpdry" method="POST">
+            <input type="text" name="name" placeholder="Ім'я" required style="width:100%; margin-bottom:10px;">
+            <input type="email" name="email" placeholder="Email" required style="width:100%; margin-bottom:10px;">
+            <input type="tel" name="phone" placeholder="Номер телефону" required style="width:100%; margin-bottom:10px;">
+            <textarea name="message" placeholder="Повідомлення" required style="width:100%; margin-bottom:10px;"></textarea>
+            <button type="submit">Відправити</button>
+        </form>
+    </div>
+</div>
+
 <footer>
     <p>&copy; 2026 Данило Недобора. Всі права захищені.</p>
+    <div id="storage-info" style="font-size: 0.8em; margin-top: 10px; color: gray;"></div>
 </footer>
+
+<script>
+    const sysData = {
+        platform: navigator.platform,
+        agent: navigator.userAgent
+    };
+    localStorage.setItem('systemInfo', JSON.stringify(sysData));
+    document.getElementById('storage-info').innerText = "Системна інформація: " + localStorage.getItem('systemInfo');
+
+    async function getReviews() {
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts/19/comments');
+            const data = await response.json();
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = "";
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "review-item";
+                div.innerHTML = `<strong>${item.email}</strong><p>${item.body}</p>`;
+                container.appendChild(div);
+            });
+        } catch (error) {
+            console.error('Помилка:', error);
+        }
+    }
+    getReviews();
+
+    setTimeout(() => {
+        document.getElementById('modal-form').style.display = 'block';
+    }, 60000);
+
+    document.getElementById('close-modal').onclick = () => {
+        document.getElementById('modal-form').style.display = 'none';
+    };
+
+    const themeBtn = document.getElementById('theme-btn');
+    function applyAutoTheme() {
+        const hour = new Date().getHours();
+        if (hour < 7 || hour >= 21) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    }
+
+    themeBtn.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+    };
+
+    applyAutoTheme();
+</script>
 </body>
 </html>
