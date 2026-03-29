@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 .sectionTitle {
-    @apply text-3xl font-bold text-slate-800 mb-8 flex items-center gap-3;
+    @apply text-3xl font-bold text-orange-500 mb-8 flex items-center gap-3;
+}
+
+:global(.dark-mode) .sectionTitle {
+    @apply text-white;
 }
 
 .listContainer {

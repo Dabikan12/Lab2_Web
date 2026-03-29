@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+.footer {
+    @apply w-full max-w-5xl py-10 text-center border-t border-slate-200 mt-auto;
+}
+
+.systemInfo {
+    @apply mt-4 text-[10px] text-slate-400 max-w-2xl mx-auto leading-normal opacity-60 break-words px-6;
+    font-family: monospace;
+}
+
+:global(.dark-mode) .footer {
+    @apply border-slate-800 text-slate-500;
+}

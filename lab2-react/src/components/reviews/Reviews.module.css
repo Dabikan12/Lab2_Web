@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+.container {
+    @apply mt-12 mb-8;
+}
+
+.title {
+    @apply text-orange-500 text-3xl font-bold mb-6 flex items-center gap-2;
+}
+
+
+.list {
+    @apply grid grid-cols-1 gap-4;
+}
+
+.card {
+    @apply bg-white p-5 rounded-xl shadow-sm border border-slate-100 transition-all hover:shadow-md;
+}
+
+.author {
+    @apply text-orange-600 font-bold text-sm mb-2;
+}
+
+.text {
+    @apply text-slate-600 italic text-sm leading-relaxed;
+}
+
+:global(.dark-mode) .title {
+    @apply text-white;
+}
+
+:global(.dark-mode) .card {
+    @apply bg-slate-800 border-slate-700;
+}
+
+:global(.dark-mode) .text {
+    @apply text-slate-300;
+}

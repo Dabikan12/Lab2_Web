@@ -1,15 +1,33 @@
+import { useState, useEffect } from 'react';
 import styles from './App.module.css';
 
-import Header from './components/Header/Header';
-import Experience from './components/Experience/Experience';
-import Education from './components/Education/Education';
-import Skills from './components/Skills/Skills';
+import Header from './components/header/Header';
+import Experience from './components/experience/Experience';
+import Education from './components/education/Education';
+import Skills from './components/skills/Skills';
+import Reviews from './components/reviews/Reviews';
+import Footer from './components/footer/Footer';
+import ContactForm from './components/contact-form/ContactForm';
 
 function App() {
-  return (
-    <div className={styles.appContainer}>
-      <div className={styles.cardWrapper}>
+  const [theme, setTheme] = useState('light');
 
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setTheme(hour >= 7 && hour < 21 ? 'light' : 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    <div className={`${styles.appContainer} ${theme === 'dark' ? styles.darkMode : ''}`}>
+      <button onClick={toggleTheme} className={styles.themeToggle}>
+        {theme === 'light' ? '🌙 Нічний режим' : '☀️ Денний режим'}
+      </button>
+
+      <div className={styles.cardWrapper}>
         <aside className={styles.sidebar}>
           <Header />
           <hr className={styles.separator} />
@@ -19,19 +37,21 @@ function App() {
         </aside>
 
         <main className={styles.mainContent}>
-           <section className={styles.aboutSection}>
-                <h2 className={styles.aboutTitle}>
-                    <span className="mr-2">🚀</span> Про мене
-                </h2>
-                <p className={styles.aboutText}>
-                    Я студент спеціальності "Кібербезпека", глибоко захоплений IT.
-                    Наразі працюю на посаді <strong>Junior IT Auditor в PwC</strong>, де поєдную академічні знання з практичним досвідом аналізу ризиків та перевірки безпеки інформаційних систем. Вмотивований розвиватися у сфері інформаційної безпеки.
-                </p>
-           </section>
+          <section className={styles.aboutSection}>
+            <h2 className={styles.aboutTitle}>Про мене</h2>
+            <p className={styles.aboutText}>
+              Я студент спеціальності "Кібербезпека", Junior IT Auditor в PwC.
+              Вмотивований розвиватися у сфері інформаційної безпеки.
+            </p>
+          </section>
 
-           <Experience />
+          <Experience />
+          <Reviews />
         </main>
       </div>
+
+      <Footer />
+      <ContactForm />
     </div>
   );
 }

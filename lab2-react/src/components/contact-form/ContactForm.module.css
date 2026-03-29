@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+.overlay {
+    @apply fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4;
+}
+
+.modal {
+    @apply bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl relative;
+    font-family: 'Comfortaa', sans-serif;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.closeBtn {
+    @apply absolute top-4 right-4 text-2xl text-slate-400 hover:text-slate-600 transition-colors cursor-pointer bg-transparent border-none;
+}
+
+.title {
+    @apply text-2xl font-bold text-slate-800 mb-6;
+}
+
+.form {
+    @apply flex flex-col gap-4;
+}
+
+.form input, .form textarea {
+    @apply w-full px-4 py-3 rounded-xl border border-slate-200 outline-none transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-200;
+}
+
+.form textarea {
+    @apply h-32 resize-none;
+}
+
+.form button {
+    @apply bg-orange-500 text-white font-bold py-3 rounded-xl transition-all hover:bg-orange-600 hover:shadow-lg active:scale-95 cursor-pointer border-none;
+}
